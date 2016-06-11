@@ -1,5 +1,5 @@
 <?php
 
-echo 'Hello, world!';
+include "templates/common.php";
 
 ?>

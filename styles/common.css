@@ -1,0 +1,87 @@
+/* Common styles
+-----------------------------------------------------------------------------*/
+html, body, div
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+body
+{
+    font: 12px/18px Arial, sans-serif;
+    width: 100%;
+}
+
+
+/* Wrapper
+-----------------------------------------------------------------------------*/
+.wrapper
+{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+.header
+{
+    height: 100px;
+    background: greenyellow;
+}
+
+
+/* Middle
+-----------------------------------------------------------------------------*/
+.middle
+{
+    border-left: 250px solid #B5E3FF;
+    position: relative;
+}
+.middle:after
+{
+    display: table;
+    clear: both;
+    content: '';
+}
+
+
+/* Container
+-----------------------------------------------------------------------------*/
+.container
+{
+    width: 100%;
+    float: left;
+    overflow: visible;
+    margin-right: -100%;
+}
+.content
+{
+    padding: 0 20px;
+}
+
+
+/* Left Sidebar
+-----------------------------------------------------------------------------*/
+.left-sidebar
+{
+    float: left;
+    width: 250px;
+    position: relative;
+    background: #B5E3FF;
+    left: -250px;
+}
+a.switch_content
+{
+    display: block;
+    font-size: 16px;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+.footer
+{
+    height: 100px;
+    background: darkgray;
+}
