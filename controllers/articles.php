@@ -2,7 +2,6 @@
 
 class Controller_articles implements Controller
 {
-    private $db_con;
     private $data;
     private $page;
     private $psize;
@@ -31,11 +30,6 @@ class Controller_articles implements Controller
     public function view()
     {
 
-    }
-
-    public function dbConnect($db_con)
-    {
-        self::$db_con = $db_con;
     }
 }
 
