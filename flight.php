@@ -10,8 +10,13 @@ define('ENDL', '</br>');
 $site_path = __DIR__ . DIRECTORY_SEPARATOR;
 try
 {
+    // Соединение с базой данных
+    $con = pg_connect($GLOBALS['dbstr']);
+    if(!$con)
+        throw new Exception("Не удается подключить базу данных");
     Router::setControllersDirectory($site_path . "controllers");
     Router::callController();
+    pg_close($con);
 }
 catch(Exception $e)
 {

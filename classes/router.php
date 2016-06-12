@@ -43,12 +43,7 @@ class Router
         $controller = new $class();
         if (is_callable(array($controller, $action)) == false)
             throw new Exception("[Router::callController] Не получается вызвать действие" . $action);
-        // Соединение с базой данных
-        $con = pg_connect($GLOBALS['dbstr']);
-        if(!$con)
-            throw new Exception("[Router::callController] Не удается подключить базу данных");
         $controller->$action();
-        pg_close($con);
     }
 }
 
