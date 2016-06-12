@@ -44,6 +44,7 @@ class Router
         if (is_callable(array($controller, $action)) == false)
             throw new Exception("[Router::callController] Не получается вызвать действие" . $action);
         $controller->$action();
+        $GLOBALS['controller'] = $controller;
     }
 }
 
