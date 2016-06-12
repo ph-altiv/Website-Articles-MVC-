@@ -26,7 +26,7 @@ class Router
         }
         if (empty($controller)) { $controller = $GLOBALS['default_controller']; };
         $action = $_GET['action'];
-        if (empty($action)) { $action = 'index'; }
+        if (empty($action) or $action == 'view') { $action = 'index'; }
         $file = self::$path . $controller . '.php';
     }
 
