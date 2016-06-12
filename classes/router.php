@@ -11,7 +11,7 @@ class Router
         $path = rtrim($path, '/\\');
         $path .= DIRECTORY_SEPARATOR;
         if (is_dir($path) == false)
-            throw new Exception ('Invalid controller path: `' . $path . '`');
+            die ('404 Not Found');
         self::$path = $path;
     }
 
