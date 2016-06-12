@@ -1,17 +1,17 @@
 <?php
 
-// Для разбора запросов и выбора контролера
+// Для разбора запросов и выбора контроллера
 class Router
 {
     private static $path;
 
-    // Установка пути к контролерам
+    // Установка пути к контроллерам
     static function setControllersDirectory($path)
     {
         $path = rtrim($path, '/\\');
         $path .= DIRECTORY_SEPARATOR;
         if (is_dir($path) == false)
-            die ('404 Not Found');
+            throw new Exception('[Router::setControllersDirectory] Ошибка директории контроллера');
         self::$path = $path;
     }
 
@@ -20,14 +20,14 @@ class Router
         $route = (empty($_GET['route'])) ? $GLOBALS['entry'] : $_GET['route'];
         $route = str_replace("../", "", $route);
         $route = trim($route, '/\\') . '.php';
-        $fullpath = self::path . $route;
-        if (is_file($fullpath)) {
-            $controller = pathinfo($fullpath, PATHINFO_FILENAME);
+        $name = self::$path . $route;
+        if (is_file($name)) {
+            $controller = pathinfo($name, PATHINFO_FILENAME);
         }
         if (empty($controller)) { $controller = $GLOBALS['default_controller']; };
         $action = $_GET['action'];
         if (empty($action)) { $action = 'index'; }
-        $file = self::path . $controller . '.php';
+        $file = self::$path . $controller . '.php';
     }
 
     // Обработка запроса
@@ -35,21 +35,19 @@ class Router
     {
         // Выбор контроллера
         self::getController($file, $controller, $action);
-        if (is_readable($file) == false)
-            die ('404 Not Found');
-        include ($file);
+        if (!is_readable($file))
+            throw new Exception("[Router::callController] Нет класса для контроллера " . $file);
+        include($file); // Подключаем сам контроллер
         $class = 'Controller_' . $controller;
         $controller = new $class();
         if (is_callable(array($controller, $action)) == false)
-            die ('404 Not Found');
-
-        // Подсоединение к базе данных
+            throw new Exception("[Router::callController] Не получается вызвать действие" . $action);
+        // Соединение с базой данных
         $con = pg_connect("host=localhost port=5432 dbname=flightphp  user=aaa password=123");
         if(!$con)
-            throw Exception("Database connection error");
+            throw new Exception("[Router::callController] Не удается подключить базу данных");
         $controller->$action();
-        pg_free_result($result);
-        pg_close($dbconn);
+        pg_close($con);
     }
 }
 

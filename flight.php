@@ -7,7 +7,18 @@ include('classes/router.php');
 
 define('ENDL', '</br>');
 $site_path = __DIR__ . DIRECTORY_SEPARATOR;
+try
+{
+    Router::setControllersDirectory($site_path . "controllers");
+    Router::callController();
+}
+catch(Exception $e)
+{
+    $ferr = fopen('log.txt', 'a');
+    fwrite($ferr, $e->getMessage() . PHP_EOL);
+    fclose($ferr);
+    die("Произошла ошибка. Приносим извенения.");
+}
 
-Router::setControllersDirectory($site_path . "controllers");
 
 ?>
