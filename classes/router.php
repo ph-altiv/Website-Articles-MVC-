@@ -37,6 +37,7 @@ class Router
         self::getController($file, $controller, $action);
         if (!is_readable($file))
             throw new Exception("[Router::callController] Нет класса для контроллера " . $file);
+        include(self::$path . 'controller.php'); // Подключаем интерфейс контроллера
         include($file); // Подключаем сам контроллер
         $class = 'Controller_' . $controller;
         $controller = new $class();
