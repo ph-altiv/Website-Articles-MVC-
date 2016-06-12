@@ -44,7 +44,7 @@ class Router
         if (is_callable(array($controller, $action)) == false)
             throw new Exception("[Router::callController] Не получается вызвать действие" . $action);
         // Соединение с базой данных
-        $con = pg_connect("host=localhost port=5432 dbname=flightphp  user=aaa password=123");
+        $con = pg_connect($GLOBALS['dbstr']);
         if(!$con)
             throw new Exception("[Router::callController] Не удается подключить базу данных");
         $controller->$action();

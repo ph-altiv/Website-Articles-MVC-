@@ -2,6 +2,7 @@
 header('Content-type: text/html; charset=utf-8');
 $GLOBALS['entry'] = pathinfo(__FILE__, PATHINFO_FILENAME);
 $GLOBALS['default_controller'] = 'articles';
+$GLOBALS['dbstr'] = file_get_contents("database_str");
 
 include('classes/router.php');
 
