@@ -1,6 +1,6 @@
 <?php
 
-class Controller_articles
+class Controller_articles implements Controller
 {
     public function index()
     {
