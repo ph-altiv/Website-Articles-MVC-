@@ -33,6 +33,7 @@ class Router
     // Обработка запроса
     static function callController()
     {
+        // Выбор контроллера
         self::getController($file, $controller, $action);
         if (is_readable($file) == false)
             die ('404 Not Found');
@@ -41,7 +42,14 @@ class Router
         $controller = new $class();
         if (is_callable(array($controller, $action)) == false)
             die ('404 Not Found');
+
+        // Подсоединение к базе данных
+        $con = pg_connect("host=localhost port=5432 dbname=flightphp  user=aaa password=123");
+        if(!$con)
+            throw Exception("Database connection error");
         $controller->$action();
+        pg_free_result($result);
+        pg_close($dbconn);
     }
 }
 
