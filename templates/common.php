@@ -29,9 +29,10 @@
         </div>
 
         <aside class="left-sidebar">
-            Left Sidebar
-            <a href="#" class="switch_content">Статьи</a>
-            <a href="#" class="switch_content">Форма</a>
+            <div class="switch_content">
+                <a href="articles">Статьи</a>
+                <a href="#">Форма</a>
+            </div>
         </aside>
 
     </div>

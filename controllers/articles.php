@@ -70,19 +70,19 @@ class Controller_articles extends Controller
     {
         // Вывод ссылок на статьи
         $start = pg_fetch_result($this->data, 0, 0);
-        echo '<ol type="1" start="' . $start . '">';
+        echo '<div class="article_links"><ol type="1" start="' . $start . '">';
         while ($line = pg_fetch_assoc($this->data))
         {
             $caption = $line['name'];
             $url = $this->urlArticle($line['oid']);
             echo '<li>' . $this->link($url, $caption) . '</li>';
         }
-        echo '</ol>';
+        echo '</ol></div>';
 
         // Линки страниц
         if($this->psize <= 1)
             return;
-        echo '<p class="pages">';
+        echo '<div class="pages">';
         echo $this->linkPage(max($this->page - 1, 1), '&lt;'); // На одну страницу назад
         $fpage = max($this->page - 1, 1);
         if($fpage > 1)
@@ -93,7 +93,7 @@ class Controller_articles extends Controller
         if($tpage < $this->psize)
             echo '…' . $this->linkPage($this->psize, $this->psize); // Последняя страница
         echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;', ''); // На одну страницу вперед
-        echo '</p>';
+        echo '</div>';
     }
 }
 

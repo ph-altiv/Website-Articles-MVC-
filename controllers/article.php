@@ -19,13 +19,15 @@ class Controller_article extends Controller
             if ( !$result )
                 throw new Exception('[Controller_article] не удается выполнить запрос к базе данных');
         }
+        echo '<div class="text">';
         if(!empty($result) and pg_num_rows($result) > 0)
             echo pg_fetch_result($result, 0, 0);
         else
             echo 'Статья не была найдена. Приносим свои извинения.';
-        echo '<p class="pages">';
+        echo '</div>';
+        echo '<div class="pages">';
         echo '<a href="javascript:history.back()" onMouseOver="window.status=\'Назад\';return true">Назад</a>';
-        echo '</p>';
+        echo '</div>';
     }
 }
 

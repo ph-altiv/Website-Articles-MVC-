@@ -50,6 +50,7 @@ body
 -----------------------------------------------------------------------------*/
 .container
 {
+    padding: 0px;
     width: 100%;
     float: left;
     overflow: visible;
@@ -57,7 +58,19 @@ body
 }
 .content
 {
-    padding: 0 20px;
+    padding: 20px;
+}
+.pages
+{
+    padding-bottom: 10px;
+    position: absolute;
+    bottom: 0px;
+    display:block;
+}
+.text, .article_links
+{
+    display:block;
+    margin-bottom: 40px;
 }
 
 
@@ -71,10 +84,15 @@ body
     background: #B5E3FF;
     left: -250px;
 }
-a.switch_content
+div.switch_content
+{
+    padding: 20px;
+}
+.switch_content a
 {
     display: block;
-    font-size: 16px;
+    font-size: 20px;
+    line-height: 30px;
 }
 
 
