@@ -28,12 +28,15 @@ class Controller_articles extends Controller
     }
 
     // Создает тег ссылки на страницу
-    private function linkPage($page, $caption)
+    private function linkPage($page, $caption, $space = ' ')
     {
-        if($this->page == $page)
-            return $caption;
-        $url = $this->urlPage($page, $this->size);
-        return $this->link($url, $caption);
+        if($this->page != $page)
+        {
+            $url = $this->urlPage($page, $this->size);
+            $caption = $this->link($url, $caption);
+        }
+
+        return $caption . $space;
     }
 
     public function index()
@@ -85,7 +88,7 @@ class Controller_articles extends Controller
             echo $this->linkPage($p, $p);
         if($tpage < $this->psize)
             echo '…' . $this->linkPage($this->psize, $this->psize); // Последняя страница
-        echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;'); // На одну страницу вперед
+        echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;', ''); // На одну страницу вперед
         echo '</p>';
     }
 }
