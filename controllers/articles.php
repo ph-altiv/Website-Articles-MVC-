@@ -47,13 +47,22 @@ class Controller_articles implements Controller
     {
         $page = $this::checkNumericGet('p', 1);
         $size = $this::checkNumericGet('s', 7);
-        $r1 = pg_query("select ceil(count(*)::real/$size) from articles;");
+
+        // Получаем количесво страниц
+        $result = pg_query("select ceil(count(*)::real/$size) from articles;");
+        if(!$result)
+            throw new Exception("[Controller_articles.Index] Не удается получить количество страниц из базы данных");
+        $this->psize = pg_fetch_array($result, 0)[0];
+
+        // Подбираем существующую страницу
+        $page = min(max(1, $page), $this->psize);
+
+        // Получаем список статей
         $query = "select num, name, oid from pages_articles($size) where page = $page";
-        $r2 = pg_query($query);
-        if(!$r1 or !$r2)
-            throw new Exception("[Controller_articles.Index] Не удается получить данные из базы");
-        $this->psize = pg_fetch_array($r1, 0)[0];
-        $this->data = $r2;
+        $result = pg_query($query);
+
+        // Запоминаем необходимые данные в объекте класса
+        $this->data = $result;
         $this->page = $page;
         $this->size = $size;
     }
