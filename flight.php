@@ -16,6 +16,10 @@ try
         throw new Exception("Не удается подключить базу данных");
     Router::setControllersDirectory($site_path . "controllers");
     Router::callController();
+
+    // Получение страницы из шаблона
+    include('templates/common.php');
+
     pg_close($con);
 }
 catch(Exception $e)
