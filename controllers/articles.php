@@ -75,18 +75,18 @@ class Controller_articles extends Controller
         // Линки страниц
         if($this->psize <= 1)
             return;
-        echo '<p class="pages">' . PHP_EOL;
-        echo $this->linkPage(max($this->page - 1, 1), '&lt;') . PHP_EOL; // На одну страницу назад
+        echo '<p class="pages">';
+        echo $this->linkPage(max($this->page - 1, 1), '&lt;'); // На одну страницу назад
         $fpage = max($this->page - 1, 1);
         if($fpage > 1)
-            echo $this->linkPage(1, 1) . (($fpage > 2) ? '…' : '') . PHP_EOL; // Первая страница
+            echo $this->linkPage(1, 1) . (($fpage > 2) ? '…' : ''); // Первая страница
         $tpage = min($fpage + 3, $this->psize);
         for($p = $fpage; $p <= $tpage; $p++) // Показывает 4 страницы в центре
-            echo $this->linkPage($p, $p) . PHP_EOL;
+            echo $this->linkPage($p, $p);
         if($tpage < $this->psize)
-            echo '…' . $this->linkPage($this->psize, $this->psize) . PHP_EOL; // Последняя страница
-        echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;') . PHP_EOL; // На одну страницу вперед
-        echo '</p>' . PHP_EOL;
+            echo '…' . $this->linkPage($this->psize, $this->psize); // Последняя страница
+        echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;'); // На одну страницу вперед
+        echo '</p>';
     }
 }
 
