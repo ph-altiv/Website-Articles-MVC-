@@ -6,7 +6,7 @@ $GLOBALS['dbstr'] = file_get_contents("database_str");
 
 include('classes/router.php');
 
-define('ENDL', '</br>');
+define('ENDL', '<br/>');
 $site_path = __DIR__ . DIRECTORY_SEPARATOR;
 try
 {
