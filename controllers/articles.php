@@ -68,12 +68,16 @@ class Controller_articles extends Controller
 
     public function view()
     {
-        while ($line = pg_fetch_array($this->data, null, PGSQL_ASSOC))
+        // Вывод ссылок на статьи
+        $start = pg_fetch_result($this->data, 0, 0);
+        echo '<ol type="1" start="' . $start . '">';
+        while ($line = pg_fetch_assoc($this->data))
         {
-            $caption = $line['num'] . '. ' . $line['name'];
+            $caption = $line['name'];
             $url = $this->urlArticle($line['oid']);
-            echo $this->link($url, $caption) . ENDL;
+            echo '<li>' . $this->link($url, $caption) . '</li>';
         }
+        echo '</ol>';
 
         // Линки страниц
         if($this->psize <= 1)
