@@ -1,18 +1,11 @@
 <?php
 
-class Controller_articles implements Controller
+class Controller_articles extends Controller
 {
     private $data;
     private $page;
     private $size; // Кольчество статей на странице
     private $psize; // Количество страниц
-
-    private function checkNumericGet($key, $default)
-    {
-        $val = $_GET[$key];
-        $val = preg_replace('~[^0-9]+~','', empty($val) ? '' : $val);
-        return empty($val) ? $default : $val;
-    }
 
     // Создает URL статьи
     private function urlArticle($id)
@@ -45,8 +38,8 @@ class Controller_articles implements Controller
 
     public function index()
     {
-        $page = $this::checkNumericGet('p', 1);
-        $size = $this::checkNumericGet('s', 7);
+        $page = $this->getNumeric('p', 1);
+        $size = $this->getNumeric('s', 7);
 
         // Контролируем размер страницы
         $size = max(min($size, 100), 3);
