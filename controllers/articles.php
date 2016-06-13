@@ -48,6 +48,9 @@ class Controller_articles implements Controller
         $page = $this::checkNumericGet('p', 1);
         $size = $this::checkNumericGet('s', 7);
 
+        // Контролируем размер страницы
+        $size = max(min($size, 100), 3);
+
         // Получаем количесво страниц
         $result = pg_query("select ceil(count(*)::real/$size) from articles;");
         if(!$result)
