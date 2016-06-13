@@ -13,6 +13,17 @@ class Controller_articles implements Controller
         return empty($val) ? $default : $val;
     }
 
+    private function urlArticle($id)
+    {
+        $data = array('id'=>$id);
+        return 'article?' . http_build_query($data);
+    }
+
+    private function link($href, $caption)
+    {
+        return "<a href=\"$href\">$caption</a>";
+    }
+
     public function index()
     {
         $page = $this::checkNumericGet('p', 1);
@@ -29,7 +40,12 @@ class Controller_articles implements Controller
 
     public function view()
     {
-
+        while ($line = pg_fetch_array($this->data, null, PGSQL_ASSOC))
+        {
+            $caption = $line['num'] . '. ' . $line['name'];
+            $url = $this::urlArticle($line['oid']);
+            echo $this::link($url, $caption) . ENDL;
+        }
     }
 }
 
