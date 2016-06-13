@@ -48,7 +48,7 @@ class Controller_articles extends Controller
         $result = pg_query("select ceil(count(*)::real/$size) from articles;");
         if(!$result)
             throw new Exception("[Controller_articles.Index] Не удается получить количество страниц из базы данных");
-        $this->psize = pg_fetch_array($result, 0)[0];
+        $this->psize = pg_fetch_result($result, 0, 0);
 
         // Подбираем существующую страницу
         $page = min(max(1, $page), $this->psize);
