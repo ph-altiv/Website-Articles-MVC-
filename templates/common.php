@@ -31,7 +31,7 @@
         <aside class="left-sidebar">
             <div class="switch_content">
                 <a href="articles">Статьи</a>
-                <a href="#">Форма</a>
+                <a href="form">Форма</a>
             </div>
         </aside>
 
