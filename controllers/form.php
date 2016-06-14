@@ -7,6 +7,7 @@ class Controller_form extends Controller
     private $DATA_ERROR = 1;
     private $DUPLICATE_ERROR = 2;
     private $EMAIL_ERROR = 3;
+    private $DATABASE_ERROR = 4;
 
     public function index()
     {
@@ -48,16 +49,69 @@ class Controller_form extends Controller
             $this->error = $this->EMAIL_ERROR;
             return;
         }
+
+        // Пытаемся занести данные в базу
+        $query = "SELECT add_user('$name', '$email')";
+        $result = pg_query($query);
+        if(!$result)
+            throw new Exception('[Form.save] Не удается отправить запрос к базе данных');
+        $result = pg_fetch_result($result, 0, 0);
+        switch($result)
+        {
+            case 'OK':
+                break;
+            case 'EMAIL_DUPLICATE':
+                $this->error = $this->DUPLICATE_ERROR;
+                break;
+            default:
+                $this->error = $this->DATABASE_ERROR_ERROR;
+        }
+    }
+
+    private function index_view()
+    {
+        $tform = $GLOBALS['templates_dir'] . 'reg_form.html';
+        if ( !file_exists($tform) )
+            throw new Exception('[Form] Не могу открыть файл ' . $tform);
+        echo file_get_contents($tform);
+    }
+
+    private function save_view()
+    {
+        echo '<div class="form_msg">';
+        switch($this->error)
+        {
+            case 0:
+                echo 'Данные внесены успешно.';
+                break;
+            case $this->DATA_ERROR;
+                echo 'Нужно заполнить оба поля.';
+                break;
+            case $this->DUPLICATE_ERROR:
+                echo 'Пользователь с таким e-mail уже есть.';
+                break;
+            case $this->EMAIL_ERROR:
+                echo 'Неверно введен e-mail.';
+                break;
+            case $this->DATABASE_ERROR;
+                echo 'Произошла ошибка. Немного подождите и попробуйте повторно внести данные.';
+                break;
+        }
+        echo '</div>';
+        echo '<div class="pages">';
+        echo '<a href="javascript:history.back()" onMouseOver="window.status=\'Назад\';return true">Назад</a>';
+        echo '</div>';
     }
 
     public function view()
     {
-        if($this->action == 'index')
+        switch($this->action)
         {
-            $tform = $GLOBALS['templates_dir'] . 'reg_form.html';
-            if ( !file_exists($tform) )
-                throw new Exception('[Form] Не могу открыть файл ' . $tform);
-            echo file_get_contents($tform);
+            case 'index':
+                $this->index_view();
+                break;
+            case 'save':
+                $this->save_view();
         }
     }
 }
