@@ -68,6 +68,7 @@ class Controller_form extends Controller
         }
     }
 
+    // Представление для действия по умолчанию, форма для заполнения данных
     private function index_view()
     {
         $tform = $GLOBALS['templates_dir'] . 'reg_form.html';
@@ -76,6 +77,7 @@ class Controller_form extends Controller
         echo file_get_contents($tform);
     }
 
+    // Представление с результатом сохранения данных
     private function save_view()
     {
         echo '<div class="form_msg">';
@@ -103,6 +105,7 @@ class Controller_form extends Controller
         echo '</div>';
     }
 
+    
     public function view()
     {
         switch($this->action)

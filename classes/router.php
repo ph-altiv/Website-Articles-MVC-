@@ -15,7 +15,7 @@ class Router
         self::$path = $path;
     }
 
-    // Имя контроллера и метод
+    // Из GET-запроса выделяет имя контроллера и метод контроллера
     private static function getController(&$file, &$controller, &$action) {
         $route = (empty($_GET['route'])) ? $GLOBALS['entry'] : $_GET['route'];
         $route = str_replace("../", "", $route);
@@ -41,9 +41,12 @@ class Router
         include($file); // Подключаем сам контроллер
         $class = 'Controller_' . $controller;
         $controller = new $class();
+
+        // Проверяем можно ли вызвать метод и вызываем его
         if (is_callable(array($controller, $action)) == false)
-            throw new Exception("[Router::callController] Не получается вызвать действие" . $action);
+            throw new Exception("[Router::callController] Не получается вызвать действие " . $action);
         $controller->$action();
+
         $GLOBALS['controller'] = $controller;
     }
 }

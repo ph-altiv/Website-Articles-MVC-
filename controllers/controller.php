@@ -2,7 +2,10 @@
 
 abstract class Controller
 {
+    // Дейстаие по умолчанию, если действие не указано
     public abstract function index();
+
+    // Представление
     public abstract function view();
 
     // Извлекает численное значение из GET запроса

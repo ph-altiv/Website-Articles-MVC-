@@ -4,7 +4,7 @@ class Controller_articles extends Controller
 {
     private $data;
     private $page;
-    private $size; // Кольчество статей на странице
+    private $size; // Количество статей на странице
     private $psize; // Количество страниц
 
     // Создает URL статьи
