@@ -6,6 +6,7 @@ class Controller_form extends Controller
     private $error = 0;
     private $DATA_ERROR = 1;
     private $DUPLICATE_ERROR = 2;
+    private $EMAIL_ERROR = 3;
 
     public function index()
     {
@@ -38,6 +39,13 @@ class Controller_form extends Controller
         if (empty($name) or empty($email))
         {
             $this->error = $this->DATA_ERROR;
+            return;
+        }
+
+        // Проверка введенного e-mail
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $this->error = $this->EMAIL_ERROR;
             return;
         }
     }
