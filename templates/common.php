@@ -13,7 +13,7 @@
 <div class="wrapper">
 
     <header class="header">
-        It's header
+        <!--It's header-->
     </header>
 
     <div class="middle">
@@ -38,7 +38,7 @@
     </div>
 
     <footer class="footer">
-        It's footer
+        <!--It's footer-->
     </footer>
 
 </div>
