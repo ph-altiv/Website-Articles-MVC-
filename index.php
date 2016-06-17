@@ -1,5 +1,32 @@
 <?php
 
+
+
+function hello($arg)
+{
+    return $arg;
+}
+
+Flight::map('hello', 'hello');
+
+Flight::before('hello', function (&$params, &$output) {
+    $params[0] = 'No.';
+});
+
+Flight::after('hello', function (&$params, &$output) {
+    $output .= "<br/>";
+});
+
+function index(){
+    echo Flight::hello('Andre!');
+    echo Flight::hello('Andre!');
+}
+Flight::route('/', 'index');
+
+Flight::start();
+
+
+/*
 // Для кириллицы
 header('Content-type: text/html; charset=utf-8');
 
@@ -39,5 +66,5 @@ catch(Exception $e)
     echo "Произошла ошибка. Приносим извенения.";
 }
 pg_close($con);
-
+*/
 ?>
