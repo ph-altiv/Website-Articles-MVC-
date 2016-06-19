@@ -68,7 +68,7 @@ class Controller_form extends Controller
                 $this->error = $this->DUPLICATE_ERROR;
                 break;
             default:
-                $this->error = $this->DATABASE_ERROR_ERROR;
+                $this->error = $this->DATABASE_ERROR;
         }
     }
 
