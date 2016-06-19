@@ -11,8 +11,7 @@ abstract class Controller
     // Извлекает численное значение из GET запроса
     protected function getNumeric($key, $default)
     {
-        $val = $_GET[$key];
-        $val = preg_replace('~[^0-9]+~','', empty($val) ? '' : $val);
+        $val = preg_replace('~[^0-9]+~','', empty($_GET[$key]) ? '' : $_GET[$key]);
         return empty($val) ? $default : $val;
     }
 }

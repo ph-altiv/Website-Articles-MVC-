@@ -3,41 +3,54 @@
 // Для кириллицы
 header('Content-type: text/html; charset=utf-8');
 
-$GLOBALS['entry'] = pathinfo(__FILE__, PATHINFO_FILENAME);
-$GLOBALS['default_controller'] = 'articles'; // Если контроллер не указан в запросе, вызывается указанный здесь
-$GLOBALS['dbstr'] = file_get_contents("database_str"); // Строка для подкоючения к бд
-$GLOBALS['templates_dir'] = __DIR__ . '/templates/';
+// Подключаем flightphp
+require_once 'flight/Flight.php';
 
-include('classes/router.php');
+// Устанавливаем директорию с шаблонами
+Flight::set('flight.views.path', 'templates');
 
-define('ENDL', '<br/>');
+// Логирование ошибок
+// Flight::set('flight.log_errors', true);
 
-$site_path = __DIR__ . DIRECTORY_SEPARATOR;
+// Обработка исключений
+Flight::map('error', function(Exception $e){
+    $fer = fopen('log.txt', 'a');
+    fwrite($fer, $e->getMessage() . PHP_EOL);
+    fclose($fer);
+    echo 'Произошла ошибка. Приносим свои извинения.';
+});
 
-// Соединение с базой данных
-$con = pg_connect($GLOBALS['dbstr']);
-if(!$con)
-    throw new Exception("Не удается подключить базу данных");
-try
-{
-    // Устанавливает директорию с контроллерами
-    Router::setControllersDirectory($site_path . "controllers");
-
-    // Получает контроллер и выполняет соответсвующее действие
-    Router::callController();
-
-    // Получение страницы из шаблона
-    include('templates/common.php');
+// По названию контроллера строит представление
+function router($controller = 'articles') {
+    $cont = "controllers/$controller.php";
+    if(!is_readable($cont))
+        Flight::notFound(); // 404
+    require_once $cont;
+    $class = 'Controller_' . $controller;
+    $obj = new $class();
+    $action = Flight::request()->query['action'];
+    if(empty($action))
+        $action = 'index';
+    if (!is_callable(array($obj, $action)))
+        Flight::notFound(); // 404
+    $obj -> $action();
+    if (!is_callable(array($obj, 'view')))
+        throw new Exception("[Router] Не получается вызвать метод представления для контроллера " . $controller);
+    Flight::view()->set('content', $obj -> view());
+    Flight::render('common.php');
 }
-catch(Exception $e)
-{
-    // Вывод сообщения об исключении в файл log
-    $ferr = fopen('log.txt', 'a');
-    fwrite($ferr, $e->getMessage() . PHP_EOL);
-    fclose($ferr);
 
-    echo "Произошла ошибка. Приносим извенения.";
-}
+// Маршрутизация в зависимости от запроса
+Flight::route('/', 'router');
+Flight::route('/@controller', 'router');
+
+// Подключаемся к базе данных
+$con = pg_connect(file_get_contents("database_str"));
+
+// Запускаем обработку framework'ом
+Flight::start();
+
+// Закрываем соединение
 pg_close($con);
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'classes/controller.php';
+
 class Controller_articles extends Controller
 {
     private $data;
@@ -68,6 +70,7 @@ class Controller_articles extends Controller
 
     public function view()
     {
+        ob_start();
         // Вывод ссылок на статьи
         $start = pg_fetch_result($this->data, 0, 0);
         echo '<div class="article_links"><ol type="1" start="' . $start . '">';
@@ -94,6 +97,7 @@ class Controller_articles extends Controller
             echo '…' . $this->linkPage($this->psize, $this->psize); // Последняя страница
         echo $this->linkPage(min($this->page + 1, $this->psize), '&gt;', ''); // На одну страницу вперед
         echo '</div>';
+        return ob_get_clean();
     }
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'classes/controller.php';
+
 class Controller_form extends Controller
 {
     private $action;
@@ -18,6 +20,8 @@ class Controller_form extends Controller
     public function save()
     {
         $this -> action = 'save';
+
+        
 
         if (!isset($_POST['name']) or !isset($_POST['email'])) {
             $this->error = $this->DATA_ERROR;
@@ -71,10 +75,7 @@ class Controller_form extends Controller
     // Представление для действия по умолчанию, форма для заполнения данных
     private function index_view()
     {
-        $tform = $GLOBALS['templates_dir'] . 'reg_form.html';
-        if ( !file_exists($tform) )
-            throw new Exception('[Form] Не могу открыть файл ' . $tform);
-        echo file_get_contents($tform);
+        Flight::render('reg_form');
     }
 
     // Представление с результатом сохранения данных
@@ -108,6 +109,7 @@ class Controller_form extends Controller
     
     public function view()
     {
+        ob_start();
         switch($this->action)
         {
             case 'index':
@@ -116,6 +118,7 @@ class Controller_form extends Controller
             case 'save':
                 $this->save_view();
         }
+        return ob_get_clean();
     }
 }
 

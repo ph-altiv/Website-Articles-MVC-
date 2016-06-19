@@ -1,5 +1,7 @@
 <?php
 
+require_once 'classes/controller.php';
+
 // Контролер для вывода одной статьи по ее id
 class Controller_article extends Controller
 {
@@ -23,6 +25,8 @@ class Controller_article extends Controller
                 throw new Exception('[Controller_article] Не удается выполнить запрос к базе данных');
         }
 
+        ob_start();
+
         // Получем статью из базы
         echo '<div class="text">';
         if(!empty($result) and pg_num_rows($result) > 0)
@@ -35,6 +39,8 @@ class Controller_article extends Controller
         echo '<div class="pages">';
         echo '<a href="javascript:history.back()" onMouseOver="window.status=\'Назад\';return true">Назад</a>';
         echo '</div>';
+
+        return ob_get_clean();
     }
 }
 

@@ -21,9 +21,7 @@
         <div class="container">
             <main class="content">
                 <?php
-                    if(empty($controller) or !is_callable(array($controller, 'view')))
-                        throw new Exception('[Common] Контроллер еще не поготовлен к выводу');
-                    $controller->view();
+                    echo $content;
                 ?>
             </main>
         </div>
